@@ -75,12 +75,11 @@ def test_session5_function_name_had_cap_letter():
 ############################## Assignment Validations###########################
 
 def test_session5_time_it_print():
-    """ Test time_it with print function, repetitions=5
-        A. failures_message: time_it can't time print function
-        B. Once you write this test, it needs to print the failure_message
-        C. Delete lines A, B and C, write proper function description after writing this test successfully. 
+    """ 
+    Test time_it with print function, repetitions=5 to check if it is working as expected
+     
     """
-    assert True == False, "You need to write this test!"
+    assert session5.time_it(print, 1, 2, 3, sep='-', end=' ***\n', repetitions=5) > 0, "time_it is not working as expected"
 
 
 def test_session5_time_it_squared_power_list():
@@ -89,7 +88,7 @@ def test_session5_time_it_squared_power_list():
         B. Once you write this test, it needs to print the failure_message
         C. Delete lines A, B and C, write proper function description after writing this test successfully. 
     """
-    assert True == False, "You need to write this test!"
+    assert session5.time_it(session5.squared_power_list, 2, repetitions=5, start=1, end=5) > 0, "time_it can't time squared_power_list function"
 
 
 def test_session5_time_it_polygon_area():
@@ -98,8 +97,7 @@ def test_session5_time_it_polygon_area():
         B. Once you write this test, it needs to print the failure_message
         C. Delete lines A, B and C, write proper function description after writing this test successfully. 
     """
-    assert True == False, "You need to write this test!"
-
+    assert session5.time_it(session5.polygon_area, 15, repetitions=10, sides=3) > 0, "time_it can't time polygon_area function"
 
 def test_session5_time_it_temp_converter():
     """Test time_it with temp_converter function, repetitions=100
@@ -107,7 +105,7 @@ def test_session5_time_it_temp_converter():
         B. Once you write this test, it needs to print the failure_message
         C. Delete lines A, B and C, write proper function description after writing this test successfully. 
     """
-    assert True == False, "You need to write this test!"
+    assert session5.time_it(session5.temp_converter, 100, repetitions=100, temp_given_in='f') > 0, "time_it can't time temp_converter function"
 
 
 def test_session5_time_it_speed_converter():
@@ -116,7 +114,7 @@ def test_session5_time_it_speed_converter():
         B. Once you write this test, it needs to print the failure_message
         C. Delete lines A, B and C, write proper function description after writing this test successfully. 
     """
-    assert True == False, "You need to write this test!"
+    assert session5.time_it(session5.speed_converter, 100, repetitions=200, dist='km', time='min') > 0, "time_it can't time speed_converter function"
 
 
 
@@ -201,23 +199,36 @@ def test_session5_squared_power_list_output():
 ####################### Validations for polygon_area()####################
 def test_session5_polygon_area():
     """Test polygon_area function for no mandatory positional arguments"""
-    assert True == False, "You need to write this test!"
-
+    with pytest.raises(TypeError):
+        session5.polygon_area()
 def test_session5_polygon_area_length():
     """Test polygon_area function for incorrect values for positional argument length (check for string AND imaginary input)"""
-    assert True == False, "You need to write this test!"
+    with pytest.raises(ValueError):
+        session5.polygon_area('sac', sides=3)
+    with pytest.raises(ValueError):
+        session5.polygon_area(1+2j, sides=3)
 
 def test_session5_polygon_area_sides():
     """Test polygon_area function for incorrect value to sides keyword argument (string "ten" AND img input)"""
-    assert True == False, "You need to write this test!"
+    with pytest.raises(TypeError):
+        session5.polygon_area(10, sides='ten')
+    with pytest.raises(TypeError):
+        session5.polygon_area(10, sides=2+3j)
 
 def test_session5_polygon_area_sides_values():
     """Test polygon_area function for permissible values for sides, check for 0, 1, 2, 7"""
-    assert True == False, "You need to write this test!"
+    with pytest.raises(ValueError):
+        v = [0, 1, 2, 7, 8, 9, 10]
+        for i in v:
+            session5.polygon_area(10, sides=i)
 
 def test_session5_polygon_area_length_values():
     """Test polygon_area function for permissible values for sides (len > 0)"""
-    assert True == False, "You need to write this test!"
+    with pytest.raises(ValueError):
+        v = [0, -1, -2, -7, -8, -9, -10]
+        
+        for i in v:
+            session5.polygon_area(i, sides=3)
 
 def test_session5_polygon_area_unwanted_args():
     """DON'T TOUCH THIS FUNCTION \
@@ -250,11 +261,15 @@ def test_session5_polygon_area_output():
 
 def test_session5_temp_converter():
     """Test temp_converter function for no mandatory positional arguments"""
-    assert True == False, "You need to write this test!"
+    with pytest.raises(TypeError):
+        session5.temp_converter()
 
 def test_session5_temp_converter_temp():
     """Test temp_converter function for incorrect values for positional argument temp (check for string AND imaginary input) """
-    assert True == False, "You need to write this test!"
+    with pytest.raises(TypeError):
+        session5.temp_converter('sac',temp_given_in='c')
+    with pytest.raises(TypeError):
+        session5.temp_converter(1+2j,temp_given_in='c')
 
 
 def test_session5_temp_converter_temp_given_in():
@@ -262,19 +277,19 @@ def test_session5_temp_converter_temp_given_in():
         Test temp_converter function for incorrect value to temp_given_in keyword argument"""
     with pytest.raises(ValueError, match=r".*Only f or c is allowed*"):
         session5.temp_converter(10,temp_given_in='K')
-    with pytest.raises(TypeError, match=r".*Charcater string expected*"):
+    with pytest.raises(TypeError, match=r".*Character string expected*"):
         session5.temp_converter(10,temp_given_in=1+2j)
 
 def test_session5_temp_converter_temp_values_in_celsius():
     """ DON'T TOUCH THIS FUNCTION \
         Test temp_converter function for permissible values for temprature in celsius"""
-    with pytest.raises(ValueError, match=r".*Temprature can't go below -273.15 celsius = 0 Kelvin*"):
+    with pytest.raises(ValueError, match=r".*Temperature can't go below -273.15 celsius = 0 Kelvin*"):
         session5.temp_converter(-280,temp_given_in='C')
 
 def test_session5_temp_converter_temp_values_in_fahrenheit():
     """ DON'T TOUCH THIS FUNCTION \
         Test temp_converter function for permissible values for temprature in fahrenheit"""
-    with pytest.raises(ValueError, match=r".*Temprature can't go below -459.67 fahrenheit = 0 Kelvin*"):
+    with pytest.raises(ValueError, match=r".*Temperature can't go below -459.67 fahrenheit = 0 Kelvin*"):
         session5.temp_converter(-500,temp_given_in='F')
 
 def test_session5_temp_converter_unwanted_args():
@@ -317,17 +332,17 @@ def test_session5_speed_converter_speed():
 def test_session5_speed_converter_dist():
     """ DON'T TOUCH THIS FUNCTION \
         Test speed_converter function for incorrect type of value for dist keyword argument"""
-    with pytest.raises(TypeError, match=r".*Charcater string expected for distance unit*"):
+    with pytest.raises(TypeError, match=r".*Character string expected for distance unit*"):
         session5.speed_converter(10,dist=10)
-    with pytest.raises(TypeError, match=r".*Charcater string expected for distance unit*"):
+    with pytest.raises(TypeError, match=r".*Character string expected for distance unit*"):
         session5.speed_converter(10,dist=1+2j)
 
 def test_session5_speed_converter_time():
     """ DON'T TOUCH THIS FUNCTION \
         Test speed_converter function for incorrect type of value for time keyword argument"""
-    with pytest.raises(TypeError, match=r".*Charcater string expected*"):
+    with pytest.raises(TypeError, match=r".*Character string expected*"):
         session5.speed_converter(10,time=10)
-    with pytest.raises(TypeError, match=r".*Charcater string expected*"):
+    with pytest.raises(TypeError, match=r".*Character string expected*"):
         session5.speed_converter(10,time=1+2j)
 
 def test_session5_speed_converter_speed_allowed_values():
